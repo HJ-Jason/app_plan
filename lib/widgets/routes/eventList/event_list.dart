@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../eventDetails/event_details.dart';
 import '../participationsPage/participations_page.dart';
 import '../profilePage/profile_page.dart';
@@ -79,16 +78,34 @@ class _EventList extends State<EventList> {
                         width: 60,
                         child: IconButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      const ProfilePage(),
-                                  transitionDuration:
-                                      const Duration(seconds: 0),
-                                ),
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SimpleDialog(
+                                children: <Widget>[
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              const ProfilePage(),
+                                          transitionDuration:
+                                              const Duration(seconds: 0),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text("Voir le profil"),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {},
+                                    child: const Text("Se déconnecter"),
+                                  ),
+                                ],
                               );
+                                  });
+                              
                             },
                             icon: const CircleAvatar(
                               backgroundImage: NetworkImage(
