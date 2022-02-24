@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../services/auth.dart';
 import '../eventDetails/event_details.dart';
 import '../participationsPage/participations_page.dart';
 import '../profilePage/profile_page.dart';
@@ -12,6 +13,7 @@ class EventList extends StatefulWidget {
 }
 
 class _EventList extends State<EventList> {
+  final AuthService auth = AuthService();
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -82,30 +84,36 @@ class _EventList extends State<EventList> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SimpleDialog(
-                                children: <Widget>[
-                                  SimpleDialogOption(
-                                    onPressed: () {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        PageRouteBuilder(
-                                          pageBuilder: (context, animation,
-                                                  secondaryAnimation) =>
-                                              const ProfilePage(),
-                                          transitionDuration:
-                                              const Duration(seconds: 0),
+                                      children: <Widget>[
+                                        SimpleDialogOption(
+                                          onPressed: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              PageRouteBuilder(
+                                                pageBuilder: (context,
+                                                        animation,
+                                                        secondaryAnimation) =>
+                                                    const ProfilePage(),
+                                                transitionDuration:
+                                                    const Duration(seconds: 0),
+                                              ),
+                                            );
+                                          },
+                                          child: const Text("Voir le profil"),
                                         ),
-                                      );
-                                    },
-                                    child: const Text("Voir le profil"),
-                                  ),
-                                  SimpleDialogOption(
-                                    onPressed: () {},
-                                    child: const Text("Se déconnecter"),
-                                  ),
-                                ],
-                              );
+                                        SimpleDialogOption(
+                                          onPressed: () {
+                                            print("user: " +
+                                                auth.user.toString());
+                                            auth.signOut();
+                                            print("user log out: " +
+                                                auth.user.toString());
+                                          },
+                                          child: const Text("Se déconnecter"),
+                                        ),
+                                      ],
+                                    );
                                   });
-                              
                             },
                             icon: const CircleAvatar(
                               backgroundImage: NetworkImage(

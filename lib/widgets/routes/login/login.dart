@@ -1,10 +1,6 @@
-
 import 'package:app_plan/services/auth.dart';
 
 import 'package:flutter/material.dart';
-
-
-
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -102,7 +98,7 @@ class _Login extends State<Login> {
                     onPressed: () {
                       auth.signInWithEmailAndPassword(
                           myControllerEmail.text, myControllerPassWord.text);
-                      print(auth.user.toString());
+                      print("user: " + auth.user.toString());
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
