@@ -1,4 +1,9 @@
 import 'package:app_plan/widgets/routes/IntroScreen/introScreen.dart';
+import 'package:app_plan/widgets/routes/eventDetails/event_details.dart';
+import 'package:app_plan/widgets/routes/eventList/event_list.dart';
+import 'package:app_plan/widgets/routes/login/login.dart';
+import 'package:app_plan/widgets/routes/participationsPage/participations_page.dart';
+import 'package:app_plan/widgets/routes/profilePage/profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +29,13 @@ class MyApp extends StatelessWidget {
       title: 'Application de planification',
       theme: ThemeData(),
       home: IntroScreen(),
+      routes: <String, WidgetBuilder>{
+        '/details': (BuildContext context) => const EventDetails(),
+        '/eventList': (BuildContext context) => const EventList(),
+        '/login': (BuildContext context) => const Login(),
+        '/profile': (BuildContext context) => const ProfilePage(),
+        '/participation': (BuildContext context) => const ParticipationPage(),
+      },
     );
   }
 }

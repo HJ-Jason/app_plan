@@ -1,4 +1,5 @@
 import 'package:app_plan/services/auth.dart';
+import 'package:app_plan/widgets/routes/eventList/event_list.dart';
 
 import 'package:flutter/material.dart';
 
@@ -95,10 +96,21 @@ class _Login extends State<Login> {
                   //
                   TextButton(
                     child: const Text("Connexion"),
-                    onPressed: () {
+                    onPressed: () async {
                       auth.signInWithEmailAndPassword(
                           myControllerEmail.text, myControllerPassWord.text);
-                      print("user: " + auth.user.toString());
+                      await Future.delayed(new Duration(milliseconds: 1500),
+                          () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const EventList(),
+                            transitionDuration: const Duration(seconds: 0),
+                          ),
+                        );
+                      });
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
