@@ -1,6 +1,7 @@
 import 'package:app_plan/widgets/routes/IntroScreen/introScreen.dart';
 import 'package:app_plan/widgets/routes/eventDetails/event_details.dart';
 import 'package:app_plan/widgets/routes/eventList/event_list.dart';
+import 'package:app_plan/widgets/routes/login/inscription_page.dart';
 import 'package:app_plan/widgets/routes/login/login.dart';
 import 'package:app_plan/widgets/routes/participationsPage/participations_page.dart';
 import 'package:app_plan/widgets/routes/profilePage/profile_page.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/login': (BuildContext context) => const Login(),
         '/profile': (BuildContext context) => const ProfilePage(),
         '/participation': (BuildContext context) => const ParticipationPage(),
+        '/inscription': (BuildContext context) => const Inscription(),
       },
     );
   }

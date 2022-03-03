@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../services/auth.dart';
-import '../eventDetails/event_details.dart';
 import '../participationsPage/participations_page.dart';
 import '../profilePage/profile_page.dart';
 
