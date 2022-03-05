@@ -9,7 +9,7 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     User? result = FirebaseAuth.instance.currentUser;
     if (result == null) {
-      return const Inscription();
+      return const Login();
     }
     return const EventList();
   }

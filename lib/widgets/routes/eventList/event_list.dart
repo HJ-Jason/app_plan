@@ -249,49 +249,9 @@ class _EventList extends State<EventList> {
                                         const SizedBox(
                                           width: 20,
                                         ),
-                                        TextButton.icon(
-                                          onPressed: () => showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              title:
-                                                  const Text('Désinscription'),
-                                              content: const Text(
-                                                  'Quitter cet événement ?'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Oui...'),
-                                                  child: const Text('Oui...'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Non !'),
-                                                  child: const Text('Non !'),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          icon: const Icon(Icons.check_circle),
-                                          label: const Text("Se désinscrire"),
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<
-                                                    Color>(
-                                              const Color.fromARGB(
-                                                  255, 233, 17, 17),
-                                            ),
-                                            foregroundColor:
-                                                MaterialStateProperty.all<
-                                                    Color>(Colors.white),
-                                          ),
-                                        ),
+                                        _myEvent(
+                                            idEvent:
+                                                documentSnapshot.id.toString()),
                                       ],
                                     )
                                   ],
@@ -436,4 +396,97 @@ class _profileImgState extends State<profileImg> {
           return const Text("loading");
         });
   }
+}
+
+class _myEvent extends StatelessWidget {
+  String? idEvent;
+  _myEvent({Key? key, this.idEvent})
+      : super(
+          key: key,
+        );
+
+  @override
+  Widget build(BuildContext context) {
+    User? result = FirebaseAuth.instance.currentUser;
+    CollectionReference userRef = FirebaseFirestore.instance
+        .collection('User')
+        .doc(result!.uid)
+        .collection('MyEvent');
+    return FutureBuilder(
+        future: userRef.doc(idEvent.toString()).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.exists) {
+              return NotInscriptionButton(context);
+            } else {
+              return InscriptionButton(context);
+            }
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
+  }
+}
+
+Widget NotInscriptionButton(context) {
+  return TextButton.icon(
+    onPressed: () => showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: const Text('Désinscription'),
+        content: const Text('Quitter cet événement ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Oui...'),
+            child: const Text('Oui...'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Non !'),
+            child: const Text('Non !'),
+          ),
+        ],
+      ),
+    ),
+    icon: const Icon(Icons.check_circle),
+    label: const Text("Se désinscrire"),
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(
+        const Color.fromARGB(255, 233, 17, 17),
+      ),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+    ),
+  );
+}
+
+Widget InscriptionButton(context) {
+  return TextButton.icon(
+    onPressed: () => showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: const Text('Désinscription'),
+        content: const Text('Quitter cet événement ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Oui...'),
+            child: const Text('Oui...'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Non !'),
+            child: const Text('Non !'),
+          ),
+        ],
+      ),
+    ),
+    icon: const Icon(Icons.check_circle),
+    label: const Text("S'inscrire'"),
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(
+        const Color.fromARGB(255, 233, 17, 17),
+      ),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+    ),
+  );
 }
