@@ -217,7 +217,9 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             );
           }
-          return const Text("loading");
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 }

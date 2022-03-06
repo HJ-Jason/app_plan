@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EventDetails extends StatefulWidget {
@@ -231,37 +232,106 @@ class _EventDetailsState extends State<EventDetails> {
                           ),
                         ),
                         // ---------- Bouton s'inscire ou se désinscrire en fonction du cas ---------- //
-                        ElevatedButton(
-                          onPressed: () => showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              title: const Text('Désinscription'),
-                              content: const Text('Quitter cet événement ?'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, 'Oui...'),
-                                  child: const Text('Oui...'),
-                                ),
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, 'Non !'),
-                                  child: const Text('Non !'),
-                                ),
-                              ],
-                            ),
-                          ),
-                          child: const Text("Se désinscrire"),
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  const Color.fromARGB(255, 245, 23, 23))),
-                        )
+                        _myEvent(idEvent: args.toString()),
                       ]),
                     ))));
           }
-          return const Text("loading");
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
+}
+
+class _myEvent extends StatelessWidget {
+  String? idEvent;
+  _myEvent({Key? key, this.idEvent})
+      : super(
+          key: key,
+        );
+
+  @override
+  Widget build(BuildContext context) {
+    User? result = FirebaseAuth.instance.currentUser;
+    CollectionReference userRef = FirebaseFirestore.instance
+        .collection('User')
+        .doc(result!.uid)
+        .collection('MyEvent');
+    return FutureBuilder(
+        future: userRef.doc(idEvent.toString()).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.exists) {
+              return NotInscriptionButton(context);
+            } else {
+              return InscriptionButton(context);
+            }
+          } else {
+            return const CircularProgressIndicator();
+          }
+        });
+  }
+}
+
+Widget NotInscriptionButton(context) {
+  return TextButton.icon(
+    onPressed: () => showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: const Text('Désinscription'),
+        content: const Text('Quitter cet événement ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Oui...'),
+            child: const Text('Oui...'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Non !'),
+            child: const Text('Non !'),
+          ),
+        ],
+      ),
+    ),
+    icon: const Icon(Icons.check_circle),
+    label: const Text("Se désinscrire"),
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(
+        const Color.fromARGB(255, 233, 17, 17),
+      ),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+    ),
+  );
+}
+
+Widget InscriptionButton(context) {
+  return TextButton.icon(
+    onPressed: () => showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: const Text('Désinscription'),
+        content: const Text('Quitter cet événement ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Oui...'),
+            child: const Text('Oui...'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Non !'),
+            child: const Text('Non !'),
+          ),
+        ],
+      ),
+    ),
+    icon: const Icon(Icons.check_circle),
+    label: const Text("S'inscrire'"),
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(
+        const Color.fromARGB(255, 233, 17, 17),
+      ),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+    ),
+  );
 }

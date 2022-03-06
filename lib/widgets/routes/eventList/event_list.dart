@@ -423,7 +423,7 @@ class _myEvent extends StatelessWidget {
               return InscriptionButton(context);
             }
           } else {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
         });
   }
