@@ -1,3 +1,5 @@
+import 'package:app_plan/widgets/routes/login/inscription_page.dart';
+import 'package:app_plan/widgets/routes/login/login.dart';
 import 'package:flutter/material.dart';
 
 class ChoiceLogin extends StatefulWidget {
@@ -32,15 +34,81 @@ class _ChoiceLogin extends State<ChoiceLogin> {
       // --------------------- Block du Login -------------------------
       //
       body: Center(
-          child: Card(
-        child: Container(
-          width: 300,
-          height: 400,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(0)),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: SizedBox(
+            width: 300,
+            height: 380,
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 24.0),
+                  child: Text(
+                    "Identifiez-vous",
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 26),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.14),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.20,
+                      width: MediaQuery.of(context).size.width * 0.50,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          child: const Text(
+                            "Connexion",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/login',
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color.fromRGBO(36, 45, 165, 1)),
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.08),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.20,
+                      width: MediaQuery.of(context).size.width * 0.50,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          child: const Text("S'inscire",
+                              style: TextStyle(fontSize: 18)),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/inscription',
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color.fromRGBO(36, 45, 165, 1)),
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 }

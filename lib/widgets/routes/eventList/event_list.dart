@@ -87,7 +87,6 @@ class _EventList extends State<EventList> {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              profileImg(),
                               const Text(
                                 'Accueil',
                                 style: TextStyle(
@@ -96,15 +95,7 @@ class _EventList extends State<EventList> {
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     fontWeight: FontWeight.w600),
                               ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.search,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  size: 40,
-                                ),
-                                padding: const EdgeInsets.all(3),
-                              ),
+                              profileImg(),
                             ],
                           )),
                     ],

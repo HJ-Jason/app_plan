@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../eventList/event_list.dart';
 import '../participationsPage/participations_page.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -83,9 +84,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         // ---------- Photo de profil ---------- //
                         child: Container(
                           alignment: const Alignment(0.0, 2.5),
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage("${data['Picture']}"),
-                            radius: 72.0,
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage("${data['Picture']}"),
+                              radius: 72.0,
+                            ),
                           ),
                         ),
                       ),
@@ -94,43 +99,48 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 60,
                     ),
                     // ---------- Nom/Prénom ---------- //
-                    Text(
-                      "${data['FirstName']} ${data['LastName']}",
-                      style: const TextStyle(
-                          fontSize: 25.0,
-                          color: Colors.blueGrey,
-                          letterSpacing: 2.0,
-                          fontWeight: FontWeight.w400),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${data['FirstName']} ${data['LastName']} ",
+                          style: const TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.blueGrey,
+                              letterSpacing: 2.0,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            onPressed: () {},
+                            icon: const Icon(Icons.edit)),
+                      ],
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    // ---------- Statut ---------- //
-                    Text(
-                      "${data['Description']}",
-                      style: const TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.black45,
-                          letterSpacing: 2.0,
-                          fontWeight: FontWeight.w300),
-                    ),
+
                     const SizedBox(
                       height: 10,
                     ),
                     // ---------- Email ---------- //
+
                     Card(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 8.0),
-                        elevation: 2.0,
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 30),
-                            child: Text(
-                              "${data['Email']}",
-                              style: const TextStyle(
-                                  letterSpacing: 2.0,
-                                  fontWeight: FontWeight.w300),
-                            ))),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 8.0),
+                      elevation: 2.0,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 30),
+                        child: Text(
+                          "${data['Email']}",
+                          style: const TextStyle(
+                              letterSpacing: 2.0, fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                    ),
+
                     const SizedBox(
                       height: 12,
                     ),
@@ -147,7 +157,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Column(
                                 children: const [
                                   Text(
-                                    "Participations à venir :",
+                                    "Ceci est une description de ma personne",
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Color.fromRGBO(36, 45, 165, 1),
                                         fontSize: 22.0,
@@ -156,13 +167,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   SizedBox(
                                     height: 7,
                                   ),
-                                  Text(
-                                    "1",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 22.0,
-                                        fontWeight: FontWeight.w300),
-                                  )
                                 ],
                               ),
                             ),
