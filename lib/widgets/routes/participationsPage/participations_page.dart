@@ -387,7 +387,7 @@ Widget NotInscriptionButton(context) {
         ],
       ),
     ),
-    icon: const Icon(Icons.check_circle),
+    icon: const Icon(Icons.remove_circle_outlined),
     label: const Text("Se désinscrire"),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
@@ -422,7 +422,7 @@ Widget InscriptionButton(context) {
     label: const Text("S'inscrire'"),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 233, 17, 17),
+        const Color.fromARGB(255, 11, 151, 23),
       ),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     ),

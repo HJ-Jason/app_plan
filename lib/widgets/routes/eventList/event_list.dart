@@ -261,20 +261,7 @@ class _EventList extends State<EventList> {
                           ),
                         ]),
                       );
-
-                      /*ListTile(
-                      title: Text(data['full_name']),
-                      subtitle: Text(data['company']),
-                    );*/
-                    }
-
-                    /*const SizedBox(
-                    height: 12,
-                  ),*/
-
-                    // ---------- Container De l'event ----------
-                    //
-                    ),
+                    }),
 
                 //---------- Le footer de l'appli ----------
                 //
@@ -449,7 +436,7 @@ Widget NotInscriptionButton(context) {
         ],
       ),
     ),
-    icon: const Icon(Icons.check_circle),
+    icon: const Icon(Icons.remove_circle_outlined),
     label: const Text("Se désinscrire"),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
@@ -481,10 +468,10 @@ Widget InscriptionButton(context) {
       ),
     ),
     icon: const Icon(Icons.check_circle),
-    label: const Text("S'inscrire'"),
+    label: const Text("S'inscrire"),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 233, 17, 17),
+        const Color.fromARGB(255, 11, 151, 23),
       ),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     ),
