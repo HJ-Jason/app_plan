@@ -1,7 +1,6 @@
+import 'package:app_plan/widgets/routes/login/inscription_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:universal_html/html.dart';
-
 import '../eventList/event_list.dart';
 import '../login/login.dart';
 
