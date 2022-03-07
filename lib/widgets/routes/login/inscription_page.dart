@@ -79,7 +79,7 @@ class _Inscription extends State<Inscription> {
                   TextFormField(
                       controller: myControllerEmail,
                       decoration: const InputDecoration(
-                        labelText: 'Email',
+                        labelText: 'Nom',
                         border: OutlineInputBorder(),
                       )),
                   const SizedBox(
@@ -88,7 +88,7 @@ class _Inscription extends State<Inscription> {
                   TextFormField(
                       controller: myControllerEmailVerif,
                       decoration: const InputDecoration(
-                        labelText: 'Confirmer Email',
+                        labelText: 'Prénom',
                         border: OutlineInputBorder(),
                       )),
                   const SizedBox(
@@ -98,7 +98,7 @@ class _Inscription extends State<Inscription> {
                   TextFormField(
                       controller: myControllerPassWord,
                       decoration: const InputDecoration(
-                        labelText: 'Mot de passe',
+                        labelText: 'Email',
                         border: OutlineInputBorder(),
                       )),
                   const SizedBox(
@@ -107,7 +107,7 @@ class _Inscription extends State<Inscription> {
                   TextFormField(
                       controller: myControllerPassWordVerif,
                       decoration: const InputDecoration(
-                        labelText: 'Confirmer Mot de passe',
+                        labelText: 'Mot de passe',
                         border: OutlineInputBorder(),
                       )),
                   const SizedBox(
