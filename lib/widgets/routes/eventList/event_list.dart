@@ -432,7 +432,8 @@ Widget NotInscriptionButton(context, idEvent) {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => const EventList()));
+                      builder: (BuildContext context) =>
+                          const ParticipationPage()));
             },
             child: const Text('Oui...'),
           ),
@@ -470,7 +471,8 @@ Widget InscriptionButton(context, idEvent) {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => const EventList()));
+                      builder: (BuildContext context) =>
+                          const ParticipationPage()));
             },
             child: const Text('Oui...'),
           ),
