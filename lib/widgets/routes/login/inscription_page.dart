@@ -126,7 +126,6 @@ class _Inscription extends State<Inscription> {
                         final user = await auth.registerWithEmailAndPassword(
                             myControllerEmail.text, myControllerPassWord.text);
                         if (user == null) {
-                          print("error: $user");
                         } else {
                           await Future.delayed(new Duration(milliseconds: 1500),
                               () {
