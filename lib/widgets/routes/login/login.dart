@@ -1,10 +1,10 @@
-
 import 'package:app_plan/services/auth.dart';
+import 'package:app_plan/widgets/routes/eventList/event_list.dart';
 
 import 'package:flutter/material.dart';
 
-
-
+int itemCount = 5;
+List<bool> selected = <bool>[];
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -17,6 +17,35 @@ class _Login extends State<Login> {
   final AuthService auth = AuthService();
   final myControllerEmail = TextEditingController();
   final myControllerPassWord = TextEditingController();
+
+  bool buttonState = true;
+
+  Icon usedIcon = const Icon(
+    Icons.visibility_off,
+    color: Colors.grey,
+    size: 35,
+  );
+
+  WhichIcon() {
+    buttonState = !buttonState;
+    if (buttonState) {
+      setState(() {
+        usedIcon = const Icon(
+          Icons.visibility_off,
+          color: Colors.grey,
+          size: 35,
+        );
+      });
+    } else {
+      setState(() {
+        usedIcon = const Icon(
+          Icons.visibility,
+          color: Colors.blueAccent,
+          size: 35,
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +115,21 @@ class _Login extends State<Login> {
                     height: 20,
                   ),
                   TextFormField(
-                      controller: myControllerPassWord,
-                      decoration: const InputDecoration(
+                    controller: myControllerPassWord,
+                    decoration: InputDecoration(
                         labelText: 'Mot de passe',
-                        border: OutlineInputBorder(),
-                      )),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 12.0),
+                          child: IconButton(
+                              onPressed: () {
+                                WhichIcon();
+                              },
+                              icon: usedIcon),
+                        )),
+                    obscureText: buttonState,
+                  ),
+
                   const SizedBox(
                     height: 30,
                   ),
@@ -99,10 +138,21 @@ class _Login extends State<Login> {
                   //
                   TextButton(
                     child: const Text("Connexion"),
-                    onPressed: () {
+                    onPressed: () async {
                       auth.signInWithEmailAndPassword(
                           myControllerEmail.text, myControllerPassWord.text);
-                      print(auth.user.toString());
+                      await Future.delayed(new Duration(milliseconds: 1500),
+                          () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const EventList(),
+                            transitionDuration: const Duration(seconds: 0),
+                          ),
+                        );
+                      });
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
