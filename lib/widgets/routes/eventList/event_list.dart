@@ -1,4 +1,5 @@
 import 'package:app_plan/widgets/routes/login/login.dart';
+import 'package:app_plan/widgets/routes/login/menu_connexion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -348,15 +349,16 @@ class _profileImgState extends State<profileImg> {
                               SimpleDialogOption(
                                 onPressed: () {
                                   auth.signOut();
-                                  Navigator.pushReplacement(
+                                  Navigator.pushAndRemoveUntil(
                                     context,
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation,
                                               secondaryAnimation) =>
-                                          const Login(),
+                                          const ChoiceLogin(),
                                       transitionDuration:
                                           const Duration(seconds: 0),
                                     ),
+                                    (Route<dynamic> route) => false,
                                   );
                                 },
                                 child: const Text("Se déconnecter"),
