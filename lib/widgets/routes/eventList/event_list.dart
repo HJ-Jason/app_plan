@@ -1,3 +1,4 @@
+import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
 import 'package:app_plan/widgets/routes/login/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -194,18 +195,10 @@ class _EventList extends State<EventList> {
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.grey[200],
                                       ),
-                                      child: Flexible(
-                                        child: RichText(
-                                          overflow: TextOverflow.ellipsis,
-                                          strutStyle:
-                                              const StrutStyle(fontSize: 12.0),
-                                          text: TextSpan(
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black),
-                                              text:
-                                                  "${documentSnapshot['Description']}"),
-                                        ),
+                                      child: Text(
+                                        "${documentSnapshot['Description']}",
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                     const SizedBox(
@@ -288,9 +281,7 @@ class _EventList extends State<EventList> {
               ),
             );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const LoadingScreen();
         });
   }
 }

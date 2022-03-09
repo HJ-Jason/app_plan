@@ -85,7 +85,7 @@ class _ChoiceLogin extends State<ChoiceLogin> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextButton(
-                          child: const Text("S'inscire",
+                          child: const Text("S'inscrire",
                               style: TextStyle(fontSize: 18)),
                           onPressed: () {
                             Navigator.pushNamed(

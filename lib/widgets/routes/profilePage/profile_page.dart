@@ -1,3 +1,4 @@
+import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -221,9 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const LoadingScreen();
         });
   }
 }

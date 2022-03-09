@@ -1,6 +1,8 @@
 import 'package:app_plan/widgets/routes/IntroScreen/introScreen.dart';
+import 'package:app_plan/widgets/routes/errorScreen/error_screen.dart';
 import 'package:app_plan/widgets/routes/eventDetails/event_details.dart';
 import 'package:app_plan/widgets/routes/eventList/event_list.dart';
+import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
 import 'package:app_plan/widgets/routes/login/inscription_page.dart';
 import 'package:app_plan/widgets/routes/login/login.dart';
 import 'package:app_plan/widgets/routes/participationsPage/participations_page.dart';

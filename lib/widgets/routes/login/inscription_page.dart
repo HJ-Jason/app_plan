@@ -18,6 +18,36 @@ class _Inscription extends State<Inscription> {
   final myControllerEmailVerif = TextEditingController();
   final myControllerPassWord = TextEditingController();
   final myControllerPassWordVerif = TextEditingController();
+
+  bool buttonState = true;
+
+  Icon usedIcon = const Icon(
+    Icons.visibility_off,
+    color: Colors.grey,
+    size: 35,
+  );
+
+  WhichIcon() {
+    buttonState = !buttonState;
+    if (buttonState) {
+      setState(() {
+        usedIcon = const Icon(
+          Icons.visibility_off,
+          color: Colors.grey,
+          size: 35,
+        );
+      });
+    } else {
+      setState(() {
+        usedIcon = const Icon(
+          Icons.visibility,
+          color: Colors.blueAccent,
+          size: 35,
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // -------------------------- Screen de l'application -----------------------
@@ -105,11 +135,20 @@ class _Inscription extends State<Inscription> {
                     height: 20,
                   ),
                   TextFormField(
-                      controller: myControllerPassWordVerif,
-                      decoration: const InputDecoration(
+                    controller: myControllerPassWord,
+                    decoration: InputDecoration(
                         labelText: 'Mot de passe',
-                        border: OutlineInputBorder(),
-                      )),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 12.0),
+                          child: IconButton(
+                              onPressed: () {
+                                WhichIcon();
+                              },
+                              icon: usedIcon),
+                        )),
+                    obscureText: buttonState,
+                  ),
                   const SizedBox(
                     height: 30,
                   ),

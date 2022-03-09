@@ -1,3 +1,4 @@
+import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,6 @@ class _ParticipationPage extends State<ParticipationPage> {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              profileImg(),
                               const Text(
                                 'Accueil',
                                 style: TextStyle(
@@ -96,15 +96,7 @@ class _ParticipationPage extends State<ParticipationPage> {
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     fontWeight: FontWeight.w600),
                               ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.search,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  size: 40,
-                                ),
-                                padding: const EdgeInsets.all(3),
-                              ),
+                              profileImg(),
                             ],
                           )),
                     ],
@@ -117,20 +109,7 @@ class _ParticipationPage extends State<ParticipationPage> {
                         idEventParticipation:
                             Streamsnapshot.data!.docs[index].id.toString(),
                       );
-
-                      /*ListTile(
-                      title: Text(data['full_name']),
-                      subtitle: Text(data['company']),
-                    );*/
-                    }
-
-                    /*const SizedBox(
-                    height: 12,
-                  ),*/
-
-                    // ---------- Container De l'event ----------
-                    //
-                    ),
+                    }),
 
                 //---------- Le footer de l'appli ----------
                 //
@@ -166,9 +145,7 @@ class _ParticipationPage extends State<ParticipationPage> {
               ),
             );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const LoadingScreen();
         });
   }
 }
@@ -277,15 +254,10 @@ class MyEventParticipation extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.grey[200],
                             ),
-                            child: Flexible(
-                              child: RichText(
-                                overflow: TextOverflow.ellipsis,
-                                strutStyle: const StrutStyle(fontSize: 12.0),
-                                text: TextSpan(
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.black),
-                                    text: "${data['Description']}"),
-                              ),
+                            child: Text(
+                              "${data['Description']}",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           const SizedBox(
@@ -329,9 +301,7 @@ class MyEventParticipation extends StatelessWidget {
               ]),
             );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const LoadingScreen();
         });
   }
 }
