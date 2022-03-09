@@ -1,5 +1,6 @@
 import 'package:app_plan/services/auth.dart';
 import 'package:app_plan/widgets/routes/eventList/event_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class _Login extends State<Login> {
   final AuthService auth = AuthService();
   final myControllerEmail = TextEditingController();
   final myControllerPassWord = TextEditingController();
+  String messageError = "";
 
   bool buttonState = true;
 
@@ -73,7 +75,7 @@ class _Login extends State<Login> {
       body: Center(
         child: Container(
             width: 300,
-            height: 400,
+            height: 420,
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -131,7 +133,20 @@ class _Login extends State<Login> {
                   ),
 
                   const SizedBox(
-                    height: 30,
+                    height: 18,
+                  ),
+                  Text(
+                    messageError,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontFamily: 'Roboto',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 18,
                   ),
 
                   // ---------- Bouton de la Connexion ----------
@@ -141,17 +156,23 @@ class _Login extends State<Login> {
                     onPressed: () async {
                       auth.signInWithEmailAndPassword(
                           myControllerEmail.text, myControllerPassWord.text);
-                      await Future.delayed(new Duration(milliseconds: 1500),
-                          () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const EventList(),
-                            transitionDuration: const Duration(seconds: 0),
-                          ),
-                        );
+                      await Future.delayed(new Duration(milliseconds: 500), () {
+                        User? _user = FirebaseAuth.instance.currentUser;
+                        if (_user != null) {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const EventList(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        } else {
+                          setState(() {
+                            messageError = "Une erreur est survenu !";
+                          });
+                        }
                       });
                     },
                     style: ButtonStyle(

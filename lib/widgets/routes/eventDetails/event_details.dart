@@ -1,6 +1,10 @@
 import 'dart:ui';
 
+
 import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
+
+import 'package:app_plan/widgets/routes/participationsPage/participations_page.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -263,9 +267,9 @@ class _myEvent extends StatelessWidget {
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.exists) {
-              return NotInscriptionButton(context);
+              return NotInscriptionButton(context, idEvent);
             } else {
-              return InscriptionButton(context);
+              return InscriptionButton(context, idEvent);
             }
           } else {
             return const CircularProgressIndicator();
@@ -274,7 +278,7 @@ class _myEvent extends StatelessWidget {
   }
 }
 
-Widget NotInscriptionButton(context) {
+Widget NotInscriptionButton(context, idEvent) {
   return TextButton.icon(
     onPressed: () => showDialog<String>(
       context: context,
@@ -284,7 +288,15 @@ Widget NotInscriptionButton(context) {
         content: const Text('Quitter cet événement ?'),
         actions: <Widget>[
           TextButton(
-            onPressed: () => Navigator.pop(context, 'Oui...'),
+            onPressed: () async {
+              deleteEvent(idEvent);
+              Navigator.pop(context, 'Oui !');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const ParticipationPage()));
+            },
             child: const Text('Oui...'),
           ),
           TextButton(
@@ -294,7 +306,7 @@ Widget NotInscriptionButton(context) {
         ],
       ),
     ),
-    icon: const Icon(Icons.check_circle),
+    icon: const Icon(Icons.remove_circle_outlined),
     label: const Text("Se désinscrire"),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
@@ -305,17 +317,25 @@ Widget NotInscriptionButton(context) {
   );
 }
 
-Widget InscriptionButton(context) {
+Widget InscriptionButton(context, idEvent) {
   return TextButton.icon(
     onPressed: () => showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: const Text('Désinscription'),
-        content: const Text('Quitter cet événement ?'),
+        title: const Text("S'inscrire"),
+        content: const Text("Voulez-vous vous inscrire à cet événement ?"),
         actions: <Widget>[
           TextButton(
-            onPressed: () => Navigator.pop(context, 'Oui...'),
+            onPressed: () async {
+              addEvent(idEvent);
+              Navigator.pop(context, 'Oui !');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const ParticipationPage()));
+            },
             child: const Text('Oui...'),
           ),
           TextButton(
@@ -326,12 +346,40 @@ Widget InscriptionButton(context) {
       ),
     ),
     icon: const Icon(Icons.check_circle),
-    label: const Text("S'inscrire'"),
+    label: const Text("S'inscrire"),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 233, 17, 17),
+        const Color.fromARGB(255, 11, 151, 23),
       ),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     ),
   );
+}
+
+Future<void> addEvent(idEvent) {
+  User? result = FirebaseAuth.instance.currentUser;
+  CollectionReference users = FirebaseFirestore.instance
+      .collection('User')
+      .doc(result!.uid)
+      .collection('MyEvent');
+  return users
+      .doc(idEvent)
+      .set({
+        'idEvent': idEvent,
+      })
+      .then((value) => print("IdEvent Added"))
+      .catchError((error) => print("Failed to add : $error"));
+}
+
+Future<void> deleteEvent(idEvent) {
+  User? result = FirebaseAuth.instance.currentUser;
+  CollectionReference users = FirebaseFirestore.instance
+      .collection('User')
+      .doc(result!.uid)
+      .collection('MyEvent');
+  return users
+      .doc(idEvent)
+      .delete()
+      .then((value) => print("IdEvent delete"))
+      .catchError((error) => print("Failed to delete : $error"));
 }
