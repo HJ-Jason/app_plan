@@ -18,6 +18,7 @@ class _Inscription extends State<Inscription> {
   final myControllerNom = TextEditingController();
   final myControllerPassWord = TextEditingController();
   final myControllerPrenom = TextEditingController();
+  String messageError = "";
   @override
   Widget build(BuildContext context) {
     // -------------------------- Screen de l'application -----------------------
@@ -111,9 +112,22 @@ class _Inscription extends State<Inscription> {
                         border: OutlineInputBorder(),
                       )),
                   const SizedBox(
-                    height: 30,
+                    height: 18,
                   ),
 
+                  Text(
+                    messageError,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontFamily: 'Roboto',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
                   // ---------- Bouton de la Connexion ----------
                   //
                   TextButton(
@@ -125,9 +139,12 @@ class _Inscription extends State<Inscription> {
                           myControllerPrenom.text.isNotEmpty) {
                         final user = await auth.registerWithEmailAndPassword(
                             myControllerEmail.text, myControllerPassWord.text);
-                        await Future.delayed(new Duration(milliseconds: 1500),
+                        await Future.delayed(new Duration(milliseconds: 500),
                             () {
                           if (user == null) {
+                            setState(() {
+                              messageError = "Une erreur est survenu !";
+                            });
                           } else {
                             addUser(myControllerEmail.text,
                                 myControllerNom.text, myControllerPrenom.text);
