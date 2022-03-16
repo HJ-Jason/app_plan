@@ -89,7 +89,7 @@ class _ParticipationPage extends State<ParticipationPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               const Text(
-                                'Accueil',
+                                'Participations',
                                 style: TextStyle(
                                     fontSize: 42,
                                     fontFamily: 'Quigleyw',
@@ -289,8 +289,7 @@ class MyEventParticipation extends StatelessWidget {
                               const SizedBox(
                                 width: 20,
                               ),
-                              _myEvent(
-                                  idEvent: idEventParticipation.toString()),
+                              myEvent(idEvent: idEventParticipation.toString()),
                             ],
                           )
                         ],
@@ -306,13 +305,15 @@ class MyEventParticipation extends StatelessWidget {
   }
 }
 
-class _myEvent extends StatelessWidget {
+class myEvent extends StatefulWidget {
   String? idEvent;
-  _myEvent({Key? key, this.idEvent})
-      : super(
-          key: key,
-        );
+  myEvent({Key? key, required this.idEvent}) : super(key: key);
 
+  @override
+  State<myEvent> createState() => _myEventState();
+}
+
+class _myEventState extends State<myEvent> {
   @override
   Widget build(BuildContext context) {
     User? result = FirebaseAuth.instance.currentUser;
@@ -320,15 +321,113 @@ class _myEvent extends StatelessWidget {
         .collection('User')
         .doc(result!.uid)
         .collection('MyEvent');
+
+    Text dialog = const Text('');
+    Text unsubDialog = const Text('Désinscription');
+    Text subDialog = const Text('Inscription');
+
+    Text question = const Text('');
+    Text unsubQuestion = const Text('Quitter cet événement ?');
+    Text subQuestion = const Text('S\'inscrire à cet évenement ?');
+
+    Text buttonText = const Text('');
+    Text unsubButtonText = const Text('Se désinscrire');
+    Text subButtonText = const Text('S\'inscire');
+
+    Icon icon = const Icon(Icons.circle);
+    Icon unsubIcon = const Icon(Icons.remove_circle_outlined);
+    Icon subIcon = const Icon(Icons.remove_circle_outlined);
+
+    var buttonColor =
+        MaterialStateProperty.all<Color>(Color.fromARGB(255, 172, 160, 160));
+
+    var subButtonColor =
+        MaterialStateProperty.all<Color>(const Color.fromARGB(255, 7, 194, 54));
+
+    var unsubButtonColor = MaterialStateProperty.all<Color>(
+        const Color.fromARGB(255, 233, 17, 17));
+
     return FutureBuilder(
-        future: userRef.doc(idEvent.toString()).get(),
+        future: userRef.doc(widget.idEvent.toString()).get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.exists) {
-              return NotInscriptionButton(context, idEvent);
+              dialog = unsubDialog;
+              question = unsubQuestion;
+              buttonText = unsubButtonText;
+              buttonColor = unsubButtonColor;
+              icon = unsubIcon;
+              return TextButton.icon(
+                onPressed: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    title: dialog,
+                    content: question,
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          deleteEvent(widget.idEvent);
+                          Navigator.pop(context, 'Oui !');
+                          setState(() {});
+                        },
+                        child: const Text('Oui...'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'Non !'),
+                        child: const Text('Non !'),
+                      ),
+                    ],
+                  ),
+                ),
+                icon: const Icon(Icons.remove_circle_outlined),
+                label: buttonText,
+                style: ButtonStyle(
+                  backgroundColor: buttonColor,
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                ),
+              );
             } else {
-              return InscriptionButton(context, idEvent);
+              dialog = subDialog;
+              question = subQuestion;
+              buttonText = subButtonText;
+              buttonColor = subButtonColor;
+              icon = subIcon;
+              return TextButton.icon(
+                onPressed: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    title: dialog,
+                    content: question,
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          addEvent(widget.idEvent);
+                          Navigator.pop(context, 'Oui !');
+                          setState(() {});
+                        },
+                        child: const Text('Oui...'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'Non !'),
+                        child: const Text('Non !'),
+                      ),
+                    ],
+                  ),
+                ),
+                icon: const Icon(Icons.remove_circle_outlined),
+                label: buttonText,
+                style: ButtonStyle(
+                  backgroundColor: buttonColor,
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                ),
+              );
             }
           } else {
             return const CircularProgressIndicator();
@@ -350,11 +449,6 @@ Widget NotInscriptionButton(context, idEvent) {
             onPressed: () async {
               deleteEvent(idEvent);
               Navigator.pop(context, 'Oui !');
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const ParticipationPage()));
             },
             child: const Text('Oui...'),
           ),
@@ -370,45 +464,6 @@ Widget NotInscriptionButton(context, idEvent) {
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
         const Color.fromARGB(255, 233, 17, 17),
-      ),
-      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-    ),
-  );
-}
-
-Widget InscriptionButton(context, idEvent) {
-  return TextButton.icon(
-    onPressed: () => showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: const Text('Désinscription'),
-        content: const Text('Quitter cet événement ?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () async {
-              addEvent(idEvent);
-              Navigator.pop(context, 'Oui !');
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const ParticipationPage()));
-            },
-            child: const Text('Oui...'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Non !'),
-            child: const Text('Non !'),
-          ),
-        ],
-      ),
-    ),
-    icon: const Icon(Icons.check_circle),
-    label: const Text("S'inscrire'"),
-    style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 11, 151, 23),
       ),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     ),

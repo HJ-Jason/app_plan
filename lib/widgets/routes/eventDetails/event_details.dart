@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-
 import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
 
 import 'package:app_plan/widgets/routes/participationsPage/participations_page.dart';
@@ -90,7 +89,7 @@ class _EventDetailsState extends State<EventDetails> {
                 body: Center(
                   child: Container(
                     alignment: Alignment.center,
-                    height: 800,
+                    height: 540,
                     width: 420,
                     margin: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
@@ -167,6 +166,7 @@ class _EventDetailsState extends State<EventDetails> {
                       // ---------- Date de l'événement ---------- //
                       Container(
                         height: 32,
+                        width: 180,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 235, 235, 235),
                           borderRadius: BorderRadius.circular(30),
@@ -209,7 +209,7 @@ class _EventDetailsState extends State<EventDetails> {
                         ],
                       ),
                       // ---------- Alerte personnalisable ---------- //
-                      Container(
+                      /*Container(
                         height: 32,
                         width: 210,
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
@@ -233,7 +233,7 @@ class _EventDetailsState extends State<EventDetails> {
                             )
                           ],
                         ),
-                      ),
+                      ),*/
                       // ---------- Bouton s'inscire ou se désinscrire en fonction du cas ---------- //
                       _myEvent(idEvent: args.toString()),
                     ]),
