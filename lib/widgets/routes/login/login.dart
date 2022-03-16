@@ -186,9 +186,9 @@ class _Login extends State<Login> {
 
                   // ---------- Bouton de Réinitialisation de Mot de passe ----------
                   //
-                  TextButton(
+                  /*TextButton(
                       onPressed: () {},
-                      child: const Text('Mot de passe oublié ?'))
+                      child: const Text('Mot de passe oublié ?'))*/
                 ],
               ),
             )),
