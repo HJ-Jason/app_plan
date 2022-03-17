@@ -18,6 +18,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   User? result = FirebaseAuth.instance.currentUser;
   int _selectedIndex = 2;
+  final myControllerPrenom = TextEditingController();
+  final myControllerNom = TextEditingController();
 
   @override
   void initState() {
@@ -55,6 +57,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     CollectionReference user = FirebaseFirestore.instance.collection('User');
+
+    Future<void> updateUser(idUser, prenom, nom) {
+      return user
+          .doc(idUser)
+          .update({'FirstName': prenom, 'LastName': nom})
+          .then((value) => print("User Updated"))
+          .catchError((error) => print("Failed to update user: $error"));
+    }
+
     return FutureBuilder<DocumentSnapshot>(
         future: user.doc(result!.uid).get(),
         builder: (context, snapshot) {
@@ -127,10 +138,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                               "Modifier ses informations"),
                                           actions: <Widget>[
                                             TextFormField(
+                                              controller: myControllerPrenom,
                                               decoration: const InputDecoration(
                                                   label: Text("Prénom")),
                                             ),
                                             TextFormField(
+                                              controller: myControllerNom,
                                               decoration: const InputDecoration(
                                                   label: Text("Nom")),
                                             ),
@@ -139,11 +152,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   MainAxisAlignment.end,
                                               children: [
                                                 TextButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      updateUser(
+                                                          result!.uid,
+                                                          myControllerPrenom
+                                                              .text,
+                                                          myControllerNom.text);
+                                                      setState(() {});
+                                                      Navigator.pop(
+                                                          context, 'Oui !');
+                                                      setState(() {});
+                                                    },
                                                     child:
                                                         const Text("Changer")),
                                                 TextButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      Navigator.pop(
+                                                          context, 'Oui !');
+                                                    },
                                                     child:
                                                         const Text("Annuler"))
                                               ],

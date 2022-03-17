@@ -160,6 +160,7 @@ class MyEventParticipation extends StatelessWidget {
     return FutureBuilder<DocumentSnapshot>(
         future: _event.doc(idEventParticipation).get(),
         builder: (context, snapshot) {
+          print("1" + snapshot.toString());
           if (snapshot.hasError) {
             return const Text("Something went wrong");
           }
@@ -300,7 +301,7 @@ class MyEventParticipation extends StatelessWidget {
               ]),
             );
           }
-          return const LoadingScreen();
+          return const Text("");
         });
   }
 }
@@ -430,44 +431,10 @@ class _myEventState extends State<myEvent> {
               );
             }
           } else {
-            return const CircularProgressIndicator();
+            return const Text("");
           }
         });
   }
-}
-
-Widget NotInscriptionButton(context, idEvent) {
-  return TextButton.icon(
-    onPressed: () => showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: const Text('Désinscription'),
-        content: const Text('Quitter cet événement ?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () async {
-              deleteEvent(idEvent);
-              Navigator.pop(context, 'Oui !');
-            },
-            child: const Text('Oui...'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Non !'),
-            child: const Text('Non !'),
-          ),
-        ],
-      ),
-    ),
-    icon: const Icon(Icons.remove_circle_outlined),
-    label: const Text("Se désinscrire"),
-    style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 233, 17, 17),
-      ),
-      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-    ),
-  );
 }
 
 Future<void> addEvent(idEvent) {
