@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
-
 import 'package:app_plan/widgets/routes/participationsPage/participations_page.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -272,7 +269,7 @@ class _myEvent extends StatelessWidget {
               return InscriptionButton(context, idEvent);
             }
           } else {
-            return const CircularProgressIndicator();
+            return const Text("");
           }
         });
   }
