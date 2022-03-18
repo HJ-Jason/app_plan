@@ -106,6 +106,7 @@ class _EventList extends State<EventList> {
                 body: ListView.builder(
                     itemCount: Streamsnapshot.data!.docs.length,
                     itemBuilder: (context, index) {
+                      print(Streamsnapshot.data!.docs.length);
                       final DocumentSnapshot documentSnapshot =
                           Streamsnapshot.data!.docs[index];
                       return Container(
@@ -175,7 +176,7 @@ class _EventList extends State<EventList> {
                                       children: [
                                         const Icon(Icons.people_alt),
                                         Text(
-                                            " 0/${documentSnapshot['PeopleLimit']}",
+                                            " ${documentSnapshot['Users'].length}/${documentSnapshot['PeopleLimit']}",
                                             style:
                                                 const TextStyle(fontSize: 16)),
                                         const SizedBox(
@@ -435,6 +436,7 @@ class _myEventState extends State<myEvent> {
                       TextButton(
                         onPressed: () async {
                           deleteEvent(widget.idEvent);
+                          deleteCountEvent(widget.idEvent);
                           Navigator.pop(context, 'Oui !');
                           setState(() {});
                         },
@@ -473,6 +475,7 @@ class _myEventState extends State<myEvent> {
                       TextButton(
                         onPressed: () async {
                           addEvent(widget.idEvent);
+                          addCountEvent(widget.idEvent);
                           Navigator.pop(context, 'Oui !');
                           setState(() {});
                         },
@@ -516,6 +519,19 @@ Future<void> addEvent(idEvent) {
       .catchError((error) => print("Failed to add : $error"));
 }
 
+Future<void> addCountEvent(idEvent) {
+  User? result = FirebaseAuth.instance.currentUser;
+  CollectionReference event = FirebaseFirestore.instance.collection('Event');
+  return event
+      .doc(idEvent)
+      .update({
+        'Users': FieldValue.arrayUnion([result!.uid])
+      })
+      .then((value) => print("Event Updated User"))
+      .catchError((error) => print("Failed to update event: $error"));
+  ;
+}
+
 Future<void> deleteEvent(idEvent) {
   User? result = FirebaseAuth.instance.currentUser;
   CollectionReference users = FirebaseFirestore.instance
@@ -527,4 +543,16 @@ Future<void> deleteEvent(idEvent) {
       .delete()
       .then((value) => print("IdEvent delete"))
       .catchError((error) => print("Failed to delete : $error"));
+}
+
+Future<void> deleteCountEvent(idEvent) {
+  User? result = FirebaseAuth.instance.currentUser;
+  CollectionReference event = FirebaseFirestore.instance.collection('Event');
+  return event
+      .doc(idEvent)
+      .update({
+        'Users': FieldValue.arrayRemove([result!.uid])
+      })
+      .then((value) => print("Event Updated User"))
+      .catchError((error) => print("Failed to update event: $error"));
 }
