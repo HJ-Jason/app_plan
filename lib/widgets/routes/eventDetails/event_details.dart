@@ -91,7 +91,7 @@ class _EventDetailsState extends State<EventDetails> {
                     margin: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(7),
                       boxShadow: [
                         BoxShadow(
                           color: const Color.fromARGB(255, 48, 48, 48)
@@ -112,8 +112,8 @@ class _EventDetailsState extends State<EventDetails> {
                         decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 49, 49, 49),
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
+                            topLeft: Radius.circular(7.0),
+                            topRight: Radius.circular(7.0),
                           ),
                         ),
                         // ---------- Titre de l'événement' ---------- //
