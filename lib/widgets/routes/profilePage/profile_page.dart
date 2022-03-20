@@ -18,6 +18,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   User? result = FirebaseAuth.instance.currentUser;
   int _selectedIndex = 2;
+  final myControllerPrenom = TextEditingController();
+  final myControllerNom = TextEditingController();
 
   @override
   void initState() {
@@ -55,6 +57,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     CollectionReference user = FirebaseFirestore.instance.collection('User');
+
+    Future<void> updateUser(idUser, prenom, nom) {
+      return user
+          .doc(idUser)
+          .update({'FirstName': prenom, 'LastName': nom})
+          .then((value) => print("User Updated"))
+          .catchError((error) => print("Failed to update user: $error"));
+    }
+
     return FutureBuilder<DocumentSnapshot>(
         future: user.doc(result!.uid).get(),
         builder: (context, snapshot) {
@@ -69,6 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 snapshot.data!.data() as Map<String, dynamic>;
             //return Text("Full Name: ${data['full_name']} ${data['last_name']}");
             return Scaffold(
+              resizeToAvoidBottomInset: false,
               body: SafeArea(
                 child: Column(
                   children: [
@@ -87,9 +99,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           alignment: const Alignment(0.0, 2.5),
                           child: GestureDetector(
                             onTap: () {},
-                            child: CircleAvatar(
+                            child: const CircleAvatar(
                               backgroundImage:
-                                  NetworkImage("${data['Picture']}"),
+                                  AssetImage('assets/images/user.png'),
                               radius: 72.0,
                             ),
                           ),
@@ -114,7 +126,56 @@ class _ProfilePageState extends State<ProfilePage> {
                         IconButton(
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          title: const Text(
+                                              "Modifier ses informations"),
+                                          actions: <Widget>[
+                                            TextFormField(
+                                              controller: myControllerPrenom,
+                                              decoration: const InputDecoration(
+                                                  label: Text("Prénom")),
+                                            ),
+                                            TextFormField(
+                                              controller: myControllerNom,
+                                              decoration: const InputDecoration(
+                                                  label: Text("Nom")),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      updateUser(
+                                                          result!.uid,
+                                                          myControllerPrenom
+                                                              .text,
+                                                          myControllerNom.text);
+                                                      setState(() {});
+                                                      Navigator.pop(
+                                                          context, 'Oui !');
+                                                      setState(() {});
+                                                    },
+                                                    child:
+                                                        const Text("Changer")),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(
+                                                          context, 'Oui !');
+                                                    },
+                                                    child:
+                                                        const Text("Annuler"))
+                                              ],
+                                            )
+                                          ]));
+                            },
                             icon: const Icon(Icons.edit)),
                       ],
                     ),

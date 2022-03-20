@@ -60,6 +60,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/background.jpg
+    - assets/images/user.png
   fonts:
     - family: Lobster
       fonts:

@@ -15,9 +15,12 @@ class Inscription extends StatefulWidget {
 class _Inscription extends State<Inscription> {
   final AuthService auth = AuthService();
   final myControllerEmail = TextEditingController();
-  final myControllerEmailVerif = TextEditingController();
+  final myControllerNom = TextEditingController();
   final myControllerPassWord = TextEditingController();
-  final myControllerPassWordVerif = TextEditingController();
+  final myControllerPrenom = TextEditingController();
+  
+  String messageError = "";
+
 
   bool buttonState = true;
 
@@ -47,6 +50,8 @@ class _Inscription extends State<Inscription> {
       });
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +112,7 @@ class _Inscription extends State<Inscription> {
                   // ---------- Le Formulaire de Connexion ----------
                   //
                   TextFormField(
-                      controller: myControllerEmail,
+                      controller: myControllerNom,
                       decoration: const InputDecoration(
                         labelText: 'Nom',
                         border: OutlineInputBorder(),
@@ -116,7 +121,7 @@ class _Inscription extends State<Inscription> {
                     height: 20,
                   ),
                   TextFormField(
-                      controller: myControllerEmailVerif,
+                      controller: myControllerPrenom,
                       decoration: const InputDecoration(
                         labelText: 'Prénom',
                         border: OutlineInputBorder(),
@@ -126,7 +131,7 @@ class _Inscription extends State<Inscription> {
                   ),
 
                   TextFormField(
-                      controller: myControllerPassWord,
+                      controller: myControllerEmail,
                       decoration: const InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(),
@@ -135,8 +140,10 @@ class _Inscription extends State<Inscription> {
                     height: 20,
                   ),
                   TextFormField(
+
                     controller: myControllerPassWord,
                     decoration: InputDecoration(
+
                         labelText: 'Mot de passe',
                         border: const OutlineInputBorder(),
                         suffixIcon: Padding(
@@ -150,26 +157,42 @@ class _Inscription extends State<Inscription> {
                     obscureText: buttonState,
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 18,
                   ),
 
+                  Text(
+                    messageError,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontFamily: 'Roboto',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
                   // ---------- Bouton de la Connexion ----------
                   //
                   TextButton(
                     child: const Text("S'inscrire"),
                     onPressed: () async {
-                      if (myControllerEmail.text ==
-                              myControllerEmailVerif.text &&
-                          myControllerPassWord.text ==
-                              myControllerPassWordVerif.text) {
+                      if (myControllerEmail.text.isNotEmpty &&
+                          myControllerPassWord.text.isNotEmpty &&
+                          myControllerNom.text.isNotEmpty &&
+                          myControllerPrenom.text.isNotEmpty) {
                         final user = await auth.registerWithEmailAndPassword(
                             myControllerEmail.text, myControllerPassWord.text);
-                        if (user == null) {
-                          print("error: $user");
-                        } else {
-                          await Future.delayed(new Duration(milliseconds: 1500),
-                              () {
-                            addUser(myControllerEmail.text);
+                        await Future.delayed(new Duration(milliseconds: 500),
+                            () {
+                          if (user == null) {
+                            setState(() {
+                              messageError = "Une erreur est survenu !";
+                            });
+                          } else {
+                            addUser(myControllerEmail.text,
+                                myControllerNom.text, myControllerPrenom.text);
                             Navigator.pushReplacement(
                               context,
                               PageRouteBuilder(
@@ -179,8 +202,8 @@ class _Inscription extends State<Inscription> {
                                 transitionDuration: const Duration(seconds: 0),
                               ),
                             );
-                          });
-                        }
+                          }
+                        });
                         /*showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -224,16 +247,15 @@ class _Inscription extends State<Inscription> {
   }
 }
 
-Future<void> addUser(email) {
+Future<void> addUser(email, nom, prenom) {
   CollectionReference users = FirebaseFirestore.instance.collection('User');
   User? result = FirebaseAuth.instance.currentUser;
   return users
       .doc(result!.uid)
       .set({
-        'Description': "",
         'Email': email,
-        'FirstName': "",
-        'LastName': "",
+        'FirstName': prenom,
+        'LastName': nom,
         'Picture':
             "https://media.discordapp.net/attachments/902535167850197022/935551661001302026/Clem.jpg?width=661&height=663",
       })
