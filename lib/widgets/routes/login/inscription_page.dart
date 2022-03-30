@@ -1,4 +1,5 @@
 import 'package:app_plan/services/auth.dart';
+import 'package:app_plan/widgets/routes/IntroScreen/introScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,10 @@ class _Inscription extends State<Inscription> {
   final myControllerNom = TextEditingController();
   final myControllerPassWord = TextEditingController();
   final myControllerPrenom = TextEditingController();
-  
-  String messageError = "";
+  final myControllerCode = TextEditingController();
+  String? code;
 
+  String messageError = "";
 
   bool buttonState = true;
 
@@ -29,6 +31,24 @@ class _Inscription extends State<Inscription> {
     color: Colors.grey,
     size: 35,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    CheckCode();
+  }
+
+  CheckCode() async {
+    await FirebaseFirestore.instance
+        .collection('code')
+        .doc('code')
+        .get()
+        .then((value) {
+      setState(() {
+        code = value.data()!['code'];
+      });
+    });
+  }
 
   WhichIcon() {
     buttonState = !buttonState;
@@ -50,8 +70,6 @@ class _Inscription extends State<Inscription> {
       });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +97,7 @@ class _Inscription extends State<Inscription> {
       body: Center(
         child: Container(
             width: 300,
-            height: 550,
+            height: 630,
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -140,10 +158,8 @@ class _Inscription extends State<Inscription> {
                     height: 20,
                   ),
                   TextFormField(
-
                     controller: myControllerPassWord,
                     decoration: InputDecoration(
-
                         labelText: 'Mot de passe',
                         border: const OutlineInputBorder(),
                         suffixIcon: Padding(
@@ -158,6 +174,15 @@ class _Inscription extends State<Inscription> {
                   ),
                   const SizedBox(
                     height: 18,
+                  ),
+                  TextFormField(
+                      controller: myControllerCode,
+                      decoration: const InputDecoration(
+                        labelText: 'Code',
+                        border: OutlineInputBorder(),
+                      )),
+                  const SizedBox(
+                    height: 30,
                   ),
 
                   Text(
@@ -178,58 +203,70 @@ class _Inscription extends State<Inscription> {
                   TextButton(
                     child: const Text("S'inscrire"),
                     onPressed: () async {
-                      if (myControllerEmail.text.isNotEmpty &&
-                          myControllerPassWord.text.isNotEmpty &&
-                          myControllerNom.text.isNotEmpty &&
-                          myControllerPrenom.text.isNotEmpty) {
-                        final user = await auth.registerWithEmailAndPassword(
-                            myControllerEmail.text, myControllerPassWord.text);
-                        await Future.delayed(new Duration(milliseconds: 500),
-                            () {
-                          if (user == null) {
-                            setState(() {
-                              messageError = "Une erreur est survenu !";
-                            });
-                          } else {
-                            addUser(myControllerEmail.text,
-                                myControllerNom.text, myControllerPrenom.text);
-                            Navigator.pushReplacement(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        const EventList(),
-                                transitionDuration: const Duration(seconds: 0),
-                              ),
-                            );
-                          }
-                        });
-                        /*showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SimpleDialog(
-                                  children: <Widget>[
-                                    SimpleDialogOption(
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          PageRouteBuilder(
-                                            pageBuilder: (context, animation,
-                                                    secondaryAnimation) =>
-                                                const Inscription(),
-                                            transitionDuration:
-                                                const Duration(seconds: 0),
-                                          ),
-                                        );
-                                      },
-                                      child: const Text("Inscription"),
-                                    ),
-                                  ],
-                                );
-                              });*/
+                      if (code == myControllerCode.text) {
+                        if (myControllerEmail.text.isNotEmpty &&
+                            myControllerPassWord.text.isNotEmpty &&
+                            myControllerNom.text.isNotEmpty &&
+                            myControllerPrenom.text.isNotEmpty) {
+                          final user = await auth.registerWithEmailAndPassword(
+                              myControllerEmail.text,
+                              myControllerPassWord.text);
+                          await Future.delayed(new Duration(milliseconds: 1000),
+                              () {
+                            if (user == null) {
+                              setState(() {
+                                messageError = "Une erreur est survenu !";
+                              });
+                            } else {
+                              addUser(
+                                  myControllerEmail.text,
+                                  myControllerNom.text,
+                                  myControllerPrenom.text);
+                              Navigator.pushReplacement(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      IntroScreen(),
+                                  transitionDuration:
+                                      const Duration(seconds: 0),
+                                ),
+                              );
+                            }
+                          });
+                          /*showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SimpleDialog(
+                                    children: <Widget>[
+                                      SimpleDialogOption(
+                                        onPressed: () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  const Inscription(),
+                                              transitionDuration:
+                                                  const Duration(seconds: 0),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text("Inscription"),
+                                      ),
+                                    ],
+                                  );
+                                });*/
+                        } else {
+                          setState(() {
+                            messageError =
+                                "Une erreur s'est produite lors de la saisie des informations!";
+                          });
+                        }
                       } else {
-                        print(
-                            "Une erreur s'est produite lors de la saisie des informations!");
+                        setState(() {
+                          messageError = "Ceci n'est pas le bon code !";
+                        });
                       }
                     },
                     style: ButtonStyle(
@@ -256,6 +293,7 @@ Future<void> addUser(email, nom, prenom) {
         'Email': email,
         'FirstName': prenom,
         'LastName': nom,
+        'MyEvent': FieldValue.arrayUnion([]),
         'Picture':
             "https://media.discordapp.net/attachments/902535167850197022/935551661001302026/Clem.jpg?width=661&height=663",
       })
