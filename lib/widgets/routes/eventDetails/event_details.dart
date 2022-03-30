@@ -254,16 +254,25 @@ class _myEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? result = FirebaseAuth.instance.currentUser;
-    CollectionReference userRef = FirebaseFirestore.instance
-        .collection('User')
-        .doc(result!.uid)
-        .collection('MyEvent');
+    CollectionReference userRef = FirebaseFirestore.instance.collection('User');
+    bool contains(data, idEvent) {
+      bool boolean = false;
+      for (var d in data) {
+        if (d == idEvent) {
+          boolean = true;
+        }
+      }
+      return boolean;
+    }
+
     return FutureBuilder(
-        future: userRef.doc(idEvent.toString()).get(),
+        future: userRef.doc(result!.uid).get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data!.exists) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            if (contains(data['MyEvent'], idEvent)) {
               return NotInscriptionButton(context, idEvent);
             } else {
               return InscriptionButton(context, idEvent);
@@ -287,6 +296,7 @@ Widget NotInscriptionButton(context, idEvent) {
           TextButton(
             onPressed: () async {
               deleteEvent(idEvent);
+              deleteCountEvent(idEvent);
               Navigator.pop(context, 'Oui !');
               Navigator.pushReplacement(
                   context,
@@ -326,6 +336,7 @@ Widget InscriptionButton(context, idEvent) {
           TextButton(
             onPressed: () async {
               addEvent(idEvent);
+              addCountEvent(idEvent);
               Navigator.pop(context, 'Oui !');
               Navigator.pushReplacement(
                   context,
@@ -346,7 +357,7 @@ Widget InscriptionButton(context, idEvent) {
     label: const Text("S'inscrire"),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 11, 151, 23),
+        const Color.fromARGB(255, 7, 57, 194),
       ),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     ),
@@ -355,28 +366,49 @@ Widget InscriptionButton(context, idEvent) {
 
 Future<void> addEvent(idEvent) {
   User? result = FirebaseAuth.instance.currentUser;
-  CollectionReference users = FirebaseFirestore.instance
-      .collection('User')
-      .doc(result!.uid)
-      .collection('MyEvent');
+  CollectionReference users = FirebaseFirestore.instance.collection('User');
   return users
-      .doc(idEvent)
-      .set({
-        'idEvent': idEvent,
+      .doc(result!.uid)
+      .update({
+        'MyEvent': FieldValue.arrayUnion([idEvent]),
       })
       .then((value) => print("IdEvent Added"))
       .catchError((error) => print("Failed to add : $error"));
 }
 
+Future<void> addCountEvent(idEvent) {
+  User? result = FirebaseAuth.instance.currentUser;
+  CollectionReference event = FirebaseFirestore.instance.collection('Event');
+  return event
+      .doc(idEvent)
+      .update({
+        'Users': FieldValue.arrayUnion([result!.uid])
+      })
+      .then((value) => print("Event Updated User"))
+      .catchError((error) => print("Failed to update event: $error"));
+  ;
+}
+
 Future<void> deleteEvent(idEvent) {
   User? result = FirebaseAuth.instance.currentUser;
-  CollectionReference users = FirebaseFirestore.instance
-      .collection('User')
-      .doc(result!.uid)
-      .collection('MyEvent');
+  CollectionReference users = FirebaseFirestore.instance.collection('User');
   return users
-      .doc(idEvent)
-      .delete()
+      .doc(result!.uid)
+      .update({
+        'MyEvent': FieldValue.arrayRemove([idEvent])
+      })
       .then((value) => print("IdEvent delete"))
       .catchError((error) => print("Failed to delete : $error"));
+}
+
+Future<void> deleteCountEvent(idEvent) {
+  User? result = FirebaseAuth.instance.currentUser;
+  CollectionReference event = FirebaseFirestore.instance.collection('Event');
+  return event
+      .doc(idEvent)
+      .update({
+        'Users': FieldValue.arrayRemove([result!.uid])
+      })
+      .then((value) => print("Event Updated User"))
+      .catchError((error) => print("Failed to update event: $error"));
 }

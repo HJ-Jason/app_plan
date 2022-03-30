@@ -382,10 +382,7 @@ class _myEventState extends State<myEvent> {
   @override
   Widget build(BuildContext context) {
     User? result = FirebaseAuth.instance.currentUser;
-    CollectionReference userRef = FirebaseFirestore.instance
-        .collection('User')
-        .doc(result!.uid)
-        .collection('MyEvent');
+    CollectionReference userRef = FirebaseFirestore.instance.collection('User');
 
     Text dialog = const Text('');
     Text unsubDialog = const Text('Désinscription');
@@ -412,13 +409,24 @@ class _myEventState extends State<myEvent> {
     var unsubButtonColor = MaterialStateProperty.all<Color>(
         const Color.fromARGB(255, 233, 17, 17));
 
+    bool contains(data, idEvent) {
+      bool boolean = false;
+      for (var d in data) {
+        if (d == idEvent) {
+          boolean = true;
+        }
+      }
+      return boolean;
+    }
+
     return FutureBuilder(
-        future: userRef.doc(widget.idEvent.toString()).get(),
+        future: userRef.doc(result!.uid).get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
-            print('coucou');
-            if (snapshot.data!.exists) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            if (contains(data['MyEvent'], widget.idEvent)) {
               dialog = unsubDialog;
               question = unsubQuestion;
               buttonText = unsubButtonText;
@@ -506,14 +514,11 @@ class _myEventState extends State<myEvent> {
 
 Future<void> addEvent(idEvent) {
   User? result = FirebaseAuth.instance.currentUser;
-  CollectionReference users = FirebaseFirestore.instance
-      .collection('User')
-      .doc(result!.uid)
-      .collection('MyEvent');
+  CollectionReference users = FirebaseFirestore.instance.collection('User');
   return users
-      .doc(idEvent)
-      .set({
-        'idEvent': idEvent,
+      .doc(result!.uid)
+      .update({
+        'MyEvent': FieldValue.arrayUnion([idEvent]),
       })
       .then((value) => print("IdEvent Added"))
       .catchError((error) => print("Failed to add : $error"));
@@ -534,13 +539,12 @@ Future<void> addCountEvent(idEvent) {
 
 Future<void> deleteEvent(idEvent) {
   User? result = FirebaseAuth.instance.currentUser;
-  CollectionReference users = FirebaseFirestore.instance
-      .collection('User')
-      .doc(result!.uid)
-      .collection('MyEvent');
+  CollectionReference users = FirebaseFirestore.instance.collection('User');
   return users
-      .doc(idEvent)
-      .delete()
+      .doc(result!.uid)
+      .update({
+        'MyEvent': FieldValue.arrayRemove([idEvent])
+      })
       .then((value) => print("IdEvent delete"))
       .catchError((error) => print("Failed to delete : $error"));
 }
