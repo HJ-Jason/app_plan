@@ -357,7 +357,7 @@ Widget InscriptionButton(context, idEvent) {
     label: const Text("S'inscrire"),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 11, 151, 23),
+        const Color.fromARGB(255, 7, 57, 194),
       ),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     ),

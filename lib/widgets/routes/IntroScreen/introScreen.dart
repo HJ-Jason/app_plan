@@ -1,3 +1,4 @@
+import 'package:app_plan/widgets/routes/IntroScreen/verifEmail.dart';
 import 'package:app_plan/widgets/routes/login/inscription_page.dart';
 import 'package:app_plan/widgets/routes/login/menu_connexion.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,10 +9,14 @@ import '../login/login.dart';
 class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    User? result = FirebaseAuth.instance.currentUser;
-    if (result == null) {
-      return const ChoiceLogin();
-    }
-    return const EventList();
+    return StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return VerifyEmail();
+          } else {
+            return ChoiceLogin();
+          }
+        });
   }
 }
