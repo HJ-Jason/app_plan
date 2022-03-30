@@ -1,4 +1,5 @@
 import 'package:app_plan/services/auth.dart';
+import 'package:app_plan/widgets/routes/IntroScreen/introScreen.dart';
 import 'package:app_plan/widgets/routes/eventList/event_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -165,7 +166,7 @@ class _Login extends State<Login> {
                             PageRouteBuilder(
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                      const EventList(),
+                                      IntroScreen(),
                               transitionDuration: const Duration(seconds: 0),
                             ),
                           );

@@ -42,6 +42,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.3.7
 
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  image_path_android: "assets/images/calendar.png"
+  image_path_ios: "assets/images/calendar.png"
+  android: true
+  ios: true
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -61,6 +69,7 @@ flutter:
   assets:
     - assets/images/background.jpg
     - assets/images/user.png
+    - assets/images/calendar.png
   fonts:
     - family: Lobster
       fonts:

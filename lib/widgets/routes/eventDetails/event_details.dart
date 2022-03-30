@@ -69,13 +69,12 @@ class _EventDetailsState extends State<EventDetails> {
                           title: Row(
                             children: const <Widget>[
                               SizedBox(
-                                height: 60,
                                 width: 60,
                               ),
                               Text(
                                 'Détails',
                                 style: TextStyle(
-                                    fontSize: 42,
+                                    fontSize: 36,
                                     fontFamily: 'Quigleyw',
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     fontWeight: FontWeight.w600),
@@ -89,7 +88,7 @@ class _EventDetailsState extends State<EventDetails> {
                 body: Center(
                   child: Container(
                     alignment: Alignment.center,
-                    height: 540,
+                    height: 580,
                     width: 420,
                     margin: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
@@ -134,10 +133,10 @@ class _EventDetailsState extends State<EventDetails> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: Image.network(
-                          'https://media.discordapp.net/attachments/902535167850197022/935814927443165254/unknown.png',
+                          'https://firebasestorage.googleapis.com/v0/b/planification-8efe7.appspot.com/o/images%2Fillustration.png?alt=media&token=c492d240-c7b5-44fe-8367-ffd2e74215c7',
                           fit: BoxFit.fill,
-                          width: 250,
-                          height: 150,
+                          width: 180,
+                          height: 180,
                         ),
                       ),
                       Container(
@@ -166,7 +165,7 @@ class _EventDetailsState extends State<EventDetails> {
                       // ---------- Date de l'événement ---------- //
                       Container(
                         height: 32,
-                        width: 180,
+                        width: 140,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 235, 235, 235),
                           borderRadius: BorderRadius.circular(30),
@@ -207,33 +206,7 @@ class _EventDetailsState extends State<EventDetails> {
                           ),
                         ],
                       ),
-                      // ---------- Alerte personnalisable ---------- //
-                      /*Container(
-                        height: 32,
-                        width: 210,
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 223, 53, 53),
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 223, 53, 53),
-                            width: 4,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Icon(Icons.bug_report),
-                            FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                ' ${data['Option']}',
-                              ),
-                            )
-                          ],
-                        ),
-                      ),*/
-                      // ---------- Bouton s'inscire ou se désinscrire en fonction du cas ---------- //
+
                       _myEvent(idEvent: args.toString()),
                     ]),
                   ),
