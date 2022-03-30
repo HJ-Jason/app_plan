@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../eventList/event_list.dart';
 import '../profilePage/profile_page.dart';
+import 'package:intl/intl.dart';
 
 class ParticipationPage extends StatefulWidget {
   const ParticipationPage({Key? key}) : super(key: key);
@@ -169,6 +170,9 @@ class MyEventParticipation extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
+            DateTime date = (data['Date'].toDate());
+            var format = DateFormat('dd/MM/yyyy');
+            var goodDate = format.format(date);
             return Container(
               height: 252,
               margin:
@@ -225,7 +229,7 @@ class MyEventParticipation extends StatelessWidget {
                           Row(children: [
                             const Icon(Icons.calendar_today),
                             Text(
-                              " ${data['Date'].toDate().toString().split(" ")[0]}",
+                              goodDate,
                               style: const TextStyle(fontSize: 16),
                             )
                           ]),

@@ -1,6 +1,6 @@
 import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
 import 'package:app_plan/widgets/routes/participationsPage/participations_page.dart';
-
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +29,9 @@ class _EventDetailsState extends State<EventDetails> {
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
+            DateTime date = (data['Date'].toDate());
+            var format = DateFormat('dd/MM/yyyy');
+            var goodDate = format.format(date);
             return Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -177,10 +180,7 @@ class _EventDetailsState extends State<EventDetails> {
                           children: <Widget>[
                             const Icon(Icons.calendar_today),
                             FittedBox(
-                                fit: BoxFit.contain,
-                                child: Text(
-                                    ' ${data['Date'].toDate().toString().split(" ")[0]} '
-                                    '${data['Date'].toDate().toString().split(" ")[1].substring(0, 5)}')),
+                                fit: BoxFit.contain, child: Text(goodDate)),
                           ],
                         ),
                       ),

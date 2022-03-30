@@ -19,8 +19,11 @@ class _Inscription extends State<Inscription> {
   final myControllerNom = TextEditingController();
   final myControllerPassWord = TextEditingController();
   final myControllerPrenom = TextEditingController();
+<<<<<<< Updated upstream
   final myControllerCode = TextEditingController();
   String? code;
+=======
+>>>>>>> Stashed changes
 
   String messageError = "";
 
@@ -203,6 +206,7 @@ class _Inscription extends State<Inscription> {
                   TextButton(
                     child: const Text("S'inscrire"),
                     onPressed: () async {
+<<<<<<< Updated upstream
                       if (code == myControllerCode.text) {
                         if (myControllerEmail.text.isNotEmpty &&
                             myControllerPassWord.text.isNotEmpty &&
@@ -212,6 +216,17 @@ class _Inscription extends State<Inscription> {
                               myControllerEmail.text,
                               myControllerPassWord.text);
                           await Future.delayed(new Duration(milliseconds: 1000),
+=======
+                      if (myControllerEmail.text.isNotEmpty &&
+                          myControllerPassWord.text.isNotEmpty &&
+                          myControllerNom.text.isNotEmpty &&
+                          myControllerPrenom.text.isNotEmpty) {
+                        if (myControllerPassWord.text.length >= 6) {
+                          final user = await auth.registerWithEmailAndPassword(
+                              myControllerEmail.text,
+                              myControllerPassWord.text);
+                          await Future.delayed(new Duration(milliseconds: 500),
+>>>>>>> Stashed changes
                               () {
                             if (user == null) {
                               setState(() {
@@ -227,13 +242,18 @@ class _Inscription extends State<Inscription> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
+<<<<<<< Updated upstream
                                       IntroScreen(),
+=======
+                                      const EventList(),
+>>>>>>> Stashed changes
                                   transitionDuration:
                                       const Duration(seconds: 0),
                                 ),
                               );
                             }
                           });
+<<<<<<< Updated upstream
                           /*showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -261,6 +281,12 @@ class _Inscription extends State<Inscription> {
                           setState(() {
                             messageError =
                                 "Une erreur s'est produite lors de la saisie des informations!";
+=======
+                        } else {
+                          setState(() {
+                            messageError =
+                                "Le mot de passe de contenir 6 caractères ou plus !";
+>>>>>>> Stashed changes
                           });
                         }
                       } else {

@@ -1,5 +1,5 @@
 import 'package:app_plan/widgets/routes/loadingScreen/loading_screen.dart';
-import 'package:app_plan/widgets/routes/login/login.dart';
+import 'package:intl/intl.dart';
 import 'package:app_plan/widgets/routes/login/menu_connexion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -106,9 +106,11 @@ class _EventList extends State<EventList> {
                 body: ListView.builder(
                     itemCount: Streamsnapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      print(Streamsnapshot.data!.docs.length);
                       final DocumentSnapshot documentSnapshot =
                           Streamsnapshot.data!.docs[index];
+                      DateTime date = (documentSnapshot['Date'].toDate());
+                      var format = DateFormat('dd/MM/yyyy');
+                      var goodDate = format.format(date);
                       return Container(
                         height: 252,
                         margin: const EdgeInsets.only(
@@ -165,7 +167,7 @@ class _EventList extends State<EventList> {
                                     Row(children: [
                                       const Icon(Icons.calendar_today),
                                       Text(
-                                        " ${documentSnapshot['Date'].toDate().toString().split(" ")[0]}",
+                                        goodDate,
                                         style: const TextStyle(fontSize: 16),
                                       )
                                     ]),
