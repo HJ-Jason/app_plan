@@ -180,7 +180,9 @@ class _EventDetailsState extends State<EventDetails> {
                           children: <Widget>[
                             const Icon(Icons.calendar_today),
                             FittedBox(
-                                fit: BoxFit.contain, child: Text(goodDate)),
+                                fit: BoxFit.contain,
+                                // ignore: unnecessary_brace_in_string_interps
+                                child: Text(" ${goodDate}")),
                           ],
                         ),
                       ),

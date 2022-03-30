@@ -19,17 +19,19 @@ class _Inscription extends State<Inscription> {
   final myControllerNom = TextEditingController();
   final myControllerPassWord = TextEditingController();
   final myControllerPrenom = TextEditingController();
-<<<<<<< Updated upstream
   final myControllerCode = TextEditingController();
   String? code;
-=======
->>>>>>> Stashed changes
 
   String messageError = "";
 
-  bool buttonState = true;
-
-  Icon usedIcon = const Icon(
+  bool buttonState1 = true;
+  bool buttonState2 = true;
+  Icon usedIcon1 = const Icon(
+    Icons.visibility_off,
+    color: Colors.grey,
+    size: 35,
+  );
+  Icon usedIcon2 = const Icon(
     Icons.visibility_off,
     color: Colors.grey,
     size: 35,
@@ -53,11 +55,11 @@ class _Inscription extends State<Inscription> {
     });
   }
 
-  WhichIcon() {
-    buttonState = !buttonState;
-    if (buttonState) {
+  WhichIcon1() {
+    buttonState1 = !buttonState1;
+    if (buttonState1) {
       setState(() {
-        usedIcon = const Icon(
+        usedIcon1 = const Icon(
           Icons.visibility_off,
           color: Colors.grey,
           size: 35,
@@ -65,7 +67,28 @@ class _Inscription extends State<Inscription> {
       });
     } else {
       setState(() {
-        usedIcon = const Icon(
+        usedIcon1 = const Icon(
+          Icons.visibility,
+          color: Colors.blueAccent,
+          size: 35,
+        );
+      });
+    }
+  }
+
+  WhichIcon2() {
+    buttonState2 = !buttonState2;
+    if (buttonState2) {
+      setState(() {
+        usedIcon2 = const Icon(
+          Icons.visibility_off,
+          color: Colors.grey,
+          size: 35,
+        );
+      });
+    } else {
+      setState(() {
+        usedIcon2 = const Icon(
           Icons.visibility,
           color: Colors.blueAccent,
           size: 35,
@@ -79,6 +102,7 @@ class _Inscription extends State<Inscription> {
     // -------------------------- Screen de l'application -----------------------
     //
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       // ------------------------ Entete de l'application -----------------------
       //
       backgroundColor: const Color.fromRGBO(36, 45, 165, 1),
@@ -99,20 +123,21 @@ class _Inscription extends State<Inscription> {
       //
       body: Center(
         child: Container(
-            width: 300,
-            height: 630,
-            padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(25)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.6),
-                    spreadRadius: 5,
-                    blurRadius: 29,
-                    offset: Offset(0, 0))
-              ],
-            ),
+          width: 300,
+          height: 560,
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(25)),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.6),
+                  spreadRadius: 5,
+                  blurRadius: 29,
+                  offset: Offset(0, 0))
+            ],
+          ),
+          child: Center(
             child: Form(
               child: Column(
                 children: <Widget>[
@@ -127,7 +152,7 @@ class _Inscription extends State<Inscription> {
                     ),
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 18,
                   ),
 
                   // ---------- Le Formulaire de Connexion ----------
@@ -148,7 +173,7 @@ class _Inscription extends State<Inscription> {
                         border: OutlineInputBorder(),
                       )),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
 
                   TextFormField(
@@ -169,23 +194,32 @@ class _Inscription extends State<Inscription> {
                           padding: const EdgeInsetsDirectional.only(end: 12.0),
                           child: IconButton(
                               onPressed: () {
-                                WhichIcon();
+                                WhichIcon1();
                               },
-                              icon: usedIcon),
+                              icon: usedIcon1),
                         )),
-                    obscureText: buttonState,
+                    obscureText: buttonState1,
                   ),
                   const SizedBox(
                     height: 18,
                   ),
                   TextFormField(
-                      controller: myControllerCode,
-                      decoration: const InputDecoration(
+                    controller: myControllerCode,
+                    decoration: InputDecoration(
                         labelText: 'Code',
-                        border: OutlineInputBorder(),
-                      )),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 12.0),
+                          child: IconButton(
+                              onPressed: () {
+                                WhichIcon2();
+                              },
+                              icon: usedIcon2),
+                        )),
+                    obscureText: buttonState2,
+                  ),
                   const SizedBox(
-                    height: 30,
+                    height: 16,
                   ),
 
                   Text(
@@ -199,94 +233,56 @@ class _Inscription extends State<Inscription> {
                     ),
                   ),
                   const SizedBox(
-                    height: 18,
+                    height: 10,
                   ),
                   // ---------- Bouton de la Connexion ----------
                   //
                   TextButton(
                     child: const Text("S'inscrire"),
                     onPressed: () async {
-<<<<<<< Updated upstream
                       if (code == myControllerCode.text) {
                         if (myControllerEmail.text.isNotEmpty &&
                             myControllerPassWord.text.isNotEmpty &&
                             myControllerNom.text.isNotEmpty &&
                             myControllerPrenom.text.isNotEmpty) {
-                          final user = await auth.registerWithEmailAndPassword(
-                              myControllerEmail.text,
-                              myControllerPassWord.text);
-                          await Future.delayed(new Duration(milliseconds: 1000),
-=======
-                      if (myControllerEmail.text.isNotEmpty &&
-                          myControllerPassWord.text.isNotEmpty &&
-                          myControllerNom.text.isNotEmpty &&
-                          myControllerPrenom.text.isNotEmpty) {
-                        if (myControllerPassWord.text.length >= 6) {
-                          final user = await auth.registerWithEmailAndPassword(
-                              myControllerEmail.text,
-                              myControllerPassWord.text);
-                          await Future.delayed(new Duration(milliseconds: 500),
->>>>>>> Stashed changes
-                              () {
-                            if (user == null) {
-                              setState(() {
-                                messageError = "Une erreur est survenu !";
-                              });
-                            } else {
-                              addUser(
-                                  myControllerEmail.text,
-                                  myControllerNom.text,
-                                  myControllerPrenom.text);
-                              Navigator.pushReplacement(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-<<<<<<< Updated upstream
-                                      IntroScreen(),
-=======
-                                      const EventList(),
->>>>>>> Stashed changes
-                                  transitionDuration:
-                                      const Duration(seconds: 0),
-                                ),
-                              );
-                            }
-                          });
-<<<<<<< Updated upstream
-                          /*showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SimpleDialog(
-                                    children: <Widget>[
-                                      SimpleDialogOption(
-                                        onPressed: () {
-                                          Navigator.pushReplacement(
-                                            context,
-                                            PageRouteBuilder(
-                                              pageBuilder: (context, animation,
-                                                      secondaryAnimation) =>
-                                                  const Inscription(),
-                                              transitionDuration:
-                                                  const Duration(seconds: 0),
-                                            ),
-                                          );
-                                        },
-                                        child: const Text("Inscription"),
-                                      ),
-                                    ],
-                                  );
-                                });*/
+                          if (myControllerPassWord.text.length >= 6) {
+                            final user =
+                                await auth.registerWithEmailAndPassword(
+                                    myControllerEmail.text,
+                                    myControllerPassWord.text);
+                            await Future.delayed(
+                                const Duration(milliseconds: 1000), () {
+                              if (user == null) {
+                                setState(() {
+                                  messageError = "Une erreur est survenu !";
+                                });
+                              } else {
+                                addUser(
+                                    myControllerEmail.text,
+                                    myControllerNom.text,
+                                    myControllerPrenom.text);
+                                Navigator.pushReplacement(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        IntroScreen(),
+                                    transitionDuration:
+                                        const Duration(seconds: 0),
+                                  ),
+                                );
+                              }
+                            });
+                          } else {
+                            setState(() {
+                              messageError =
+                                  "Le mot de passe de contenir 6 caractères ou plus !";
+                            });
+                          }
                         } else {
                           setState(() {
                             messageError =
                                 "Une erreur s'est produite lors de la saisie des informations!";
-=======
-                        } else {
-                          setState(() {
-                            messageError =
-                                "Le mot de passe de contenir 6 caractères ou plus !";
->>>>>>> Stashed changes
                           });
                         }
                       } else {
@@ -304,7 +300,9 @@ class _Inscription extends State<Inscription> {
                   ),
                 ],
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -316,6 +314,7 @@ Future<void> addUser(email, nom, prenom) {
   return users
       .doc(result!.uid)
       .set({
+        'Admin': false,
         'Email': email,
         'FirstName': prenom,
         'LastName': nom,
