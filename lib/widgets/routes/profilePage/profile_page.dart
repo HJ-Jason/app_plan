@@ -225,35 +225,35 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 12,
                     ),
                     // ---------- Nombre de participations ---------- //
-                    Card(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 8.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: const [
-                                  Text(
-                                    "Ceci est une description de ma personne",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(36, 45, 165, 1),
-                                        fontSize: 22.0,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: 7,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Card(
+                    //   margin: const EdgeInsets.symmetric(
+                    //       horizontal: 20.0, vertical: 8.0),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //       children: [
+                    //         Expanded(
+                    //           child: Column(
+                    //             children: const [
+                    //               Text(
+                    //                 "Je suis un musicien qui aime jouer de la musique.",
+                    //                 textAlign: TextAlign.center,
+                    //                 style: TextStyle(
+                    //                     color: Color.fromRGBO(36, 45, 165, 1),
+                    //                     fontSize: 22.0,
+                    //                     fontWeight: FontWeight.w600),
+                    //               ),
+                    //               SizedBox(
+                    //                 height: 7,
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 16,
                     ),
