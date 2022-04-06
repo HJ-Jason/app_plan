@@ -1,4 +1,5 @@
 import 'package:app_plan/services/auth.dart';
+import 'package:app_plan/widgets/routes/IntroScreen/introScreen.dart';
 import 'package:app_plan/widgets/routes/eventList/event_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -75,7 +76,7 @@ class _Login extends State<Login> {
       body: Center(
         child: Container(
             width: 300,
-            height: 420,
+            height: 360,
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -156,7 +157,7 @@ class _Login extends State<Login> {
                     onPressed: () async {
                       auth.signInWithEmailAndPassword(
                           myControllerEmail.text, myControllerPassWord.text);
-                      await Future.delayed(new Duration(milliseconds: 1000),
+                      await Future.delayed(const Duration(milliseconds: 1000),
                           () {
                         User? _user = FirebaseAuth.instance.currentUser;
                         if (_user != null) {
@@ -165,7 +166,7 @@ class _Login extends State<Login> {
                             PageRouteBuilder(
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                      const EventList(),
+                                      IntroScreen(),
                               transitionDuration: const Duration(seconds: 0),
                             ),
                           );

@@ -1,5 +1,3 @@
-import 'package:app_plan/widgets/routes/login/inscription_page.dart';
-import 'package:app_plan/widgets/routes/login/login.dart';
 import 'package:flutter/material.dart';
 
 class ChoiceLogin extends StatefulWidget {

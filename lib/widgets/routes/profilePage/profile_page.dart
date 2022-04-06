@@ -3,10 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../eventList/event_list.dart';
 import '../participationsPage/participations_page.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -137,21 +135,48 @@ class _ProfilePageState extends State<ProfilePage> {
                                           title: const Text(
                                               "Modifier ses informations"),
                                           actions: <Widget>[
-                                            TextFormField(
-                                              controller: myControllerPrenom,
-                                              decoration: const InputDecoration(
-                                                  label: Text("Prénom")),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: TextFormField(
+                                                controller: myControllerNom,
+                                                decoration:
+                                                    const InputDecoration(
+                                                        label: Text("Nom")),
+                                              ),
                                             ),
-                                            TextFormField(
-                                              controller: myControllerNom,
-                                              decoration: const InputDecoration(
-                                                  label: Text("Nom")),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: TextFormField(
+                                                controller: myControllerPrenom,
+                                                decoration:
+                                                    const InputDecoration(
+                                                        label: Text("Prénom")),
+                                              ),
                                             ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
                                                 TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      primary:
+                                                          const Color.fromARGB(
+                                                              255, 250, 12, 12),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pop(
+                                                          context, 'Oui !');
+                                                    },
+                                                    child:
+                                                        const Text("Annuler")),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      primary:
+                                                          const Color.fromRGBO(
+                                                              13, 19, 132, 1.0),
+                                                    ),
                                                     onPressed: () {
                                                       updateUser(
                                                           result!.uid,
@@ -165,13 +190,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     },
                                                     child:
                                                         const Text("Changer")),
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(
-                                                          context, 'Oui !');
-                                                    },
-                                                    child:
-                                                        const Text("Annuler"))
                                               ],
                                             )
                                           ]));
@@ -207,35 +225,35 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 12,
                     ),
                     // ---------- Nombre de participations ---------- //
-                    Card(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 8.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: const [
-                                  Text(
-                                    "Ceci est une description de ma personne",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(36, 45, 165, 1),
-                                        fontSize: 22.0,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: 7,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Card(
+                    //   margin: const EdgeInsets.symmetric(
+                    //       horizontal: 20.0, vertical: 8.0),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //       children: [
+                    //         Expanded(
+                    //           child: Column(
+                    //             children: const [
+                    //               Text(
+                    //                 "Je suis un musicien qui aime jouer de la musique.",
+                    //                 textAlign: TextAlign.center,
+                    //                 style: TextStyle(
+                    //                     color: Color.fromRGBO(36, 45, 165, 1),
+                    //                     fontSize: 22.0,
+                    //                     fontWeight: FontWeight.w600),
+                    //               ),
+                    //               SizedBox(
+                    //                 height: 7,
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 16,
                     ),

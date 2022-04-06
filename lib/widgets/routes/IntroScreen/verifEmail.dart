@@ -66,7 +66,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
       ? const EventList()
       : Scaffold(
           appBar: AppBar(
-            title: const Text('Verify Email'),
+            backgroundColor: const Color.fromRGBO(36, 45, 165, 1),
+            title: const Text('Vérification de l\'email'),
           ),
           body: Padding(
             padding: const EdgeInsets.all(16),
@@ -74,15 +75,39 @@ class _VerifyEmailState extends State<VerifyEmail> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'A verification email has been sent to your email.',
+                  'Un email de vérification a été envoyé sur votre boîte mail.',
                   style: TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
                   height: 24,
                 ),
+                const Text(
+                  'La connexion se fera automatiquement depuis cette page une fois votre email vérifié.',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.warning_amber_rounded, color: Colors.red),
+                    Text(
+                      ' Pensez à vérifier vos spams ! ',
+                      style: TextStyle(fontSize: 20, color: Colors.red),
+                      textAlign: TextAlign.center,
+                    ),
+                    Icon(Icons.warning_amber_rounded, color: Colors.red),
+                  ],
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
+                    primary: const Color.fromRGBO(36, 45, 165, 1),
                     minimumSize: const Size.fromHeight(50),
                   ),
                   icon: const Icon(
@@ -90,7 +115,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     size: 32,
                   ),
                   label: const Text(
-                    'Resent Email',
+                    'Renvoyer le mail',
                     style: TextStyle(fontSize: 24),
                   ),
                   onPressed: canResetEmail ? sendVerificationEmail : () {},
@@ -98,6 +123,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 const SizedBox(height: 8),
                 TextButton(
                     style: ElevatedButton.styleFrom(
+                      primary: const Color.fromRGBO(36, 45, 165, 1),
                       minimumSize: const Size.fromHeight(50),
                     ),
                     onPressed: () {
@@ -114,8 +140,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       );
                     },
                     child: const Text(
-                      'cancel',
-                      style: TextStyle(fontSize: 24),
+                      'Retour',
+                      style: TextStyle(fontSize: 24, color: Colors.white),
                     )),
               ],
             ),
